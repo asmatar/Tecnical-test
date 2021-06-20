@@ -1,8 +1,9 @@
-export const GET_ARTICLES = 'GET_ARTICLES';
+export const ADD_TO_CARD = 'ADD_TO_CARD';
 
-export const getArticles = (payload) => {
-    return {
-        type: 'GET_ARTICLES',
-        payload: payload
-    }
-}
+export const handleAddToCart = (article) => ({
+    type: ADD_TO_CARD,
+    // name : article.name,
+    // unit_price_incl_vat : article.unit_price_incl_vat,
+    // vat_category : article.vat_category
+    panier : article
+});
