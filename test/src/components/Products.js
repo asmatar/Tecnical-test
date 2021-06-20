@@ -6,7 +6,7 @@ import { handleAddToCart } from '../redux/actions';
 const Products = ({articles, AddToCart}) => {
 
   const handleAddToCart = (article) => {
-    console.log('handleatc', article)
+    console.log(article)
     AddToCart(article)
   }
     return (     

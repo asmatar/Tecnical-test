@@ -1,6 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-const Cart = () => {
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { handleDeleteArticle } from '../redux/actions';
+
+const Cart = ({panierArticle, handleDeleteArticle}) => {
+
+  const handleDelete = (articleDelete) => {
+    handleDeleteArticle(articleDelete)
+  }
     return (
         <section class="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
@@ -20,8 +27,25 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody>
-  
-  
+              {
+                panierArticle && panierArticle.map(article => {
+                  return (
+                    <tr>
+                    <td class="px-4 py-3">{article.name}</td>
+                    <td class="px-4 py-3">
+                        <input name="quantity" type="number" class="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="5" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" onClick={()=>handleDelete(article)}/> 
+                          </svg> 
+                          </td>
+                    <td class="px-4 py-3 text-right">{article.unit_price_incl_vat} €</td>
+                    <td class="px-4 py-3 text-right">{article.vat_category}%</td>
+                    <td class="px-4 py-3 text-lg text-gray-900 text-right">27.50 €</td>
+                  </tr>
+                  )
+                })
+              }
+{/*   
                 <tr>
                   <td class="px-4 py-3">Mercury</td>
                   <td class="px-4 py-3">
@@ -33,9 +57,9 @@ const Cart = () => {
                   <td class="px-4 py-3 text-right">5.50 €</td>
                   <td class="px-4 py-3 text-right">10%</td>
                   <td class="px-4 py-3 text-lg text-gray-900 text-right">27.50 €</td>
-                </tr>
+                </tr> */}
   
-  
+{/*   
                 <tr>
                   <td class="border-t-2 border-gray-200 px-4 py-3">Earth</td>
                   <td class="border-t-2 border-gray-200 px-4 py-3"><input name="quantity" type="number" class="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="1" /><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,6 +69,7 @@ const Cart = () => {
                   <td class="border-t-2 border-gray-200 px-4 py-3 text-right">0%</td>
                   <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">10.00 €</td>
                 </tr>
+
                 <tr>
                   <td class="border-t-2 border-gray-200 px-4 py-3">Mars</td>
                   <td class="border-t-2 border-gray-200 px-4 py-3"><input name="quantity" type="number" class="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="3"/><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,6 +79,7 @@ const Cart = () => {
                   <td class="border-t-2 border-gray-200 px-4 py-3 text-right">10%</td>
                   <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">3.21 €</td>
                 </tr>
+
                 <tr>
                   <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">Neptune</td>
                   <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3"><input name="quantity" type="number" class="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="2" /><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,7 +88,7 @@ const Cart = () => {
                   <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">12.00 €</td>
                   <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">20%</td>
                   <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">24.00 €</td>
-                </tr>
+                </tr> */}
   
                 
               </tbody>
@@ -102,5 +128,17 @@ const Cart = () => {
       </section>
     )
 }
+const mapStateToProps = (state) => {
+  return {
+    panierArticle : state.panierState.panierArticle
+  }
+}
 
-export default Cart
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleDeleteArticle: (articleDelete) => {
+      dispatch(handleDeleteArticle(articleDelete))
+    }
+  }
+}
+export default connect (mapStateToProps,mapDispatchToProps )(Cart) 
