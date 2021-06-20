@@ -35,10 +35,53 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
       // add the price of the item multiplied byt the quantity
       totalTVA += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
     });
-    console.log(totalTVA)
     return totalTVA
   }
-  totalWithoutTVA()
+  // const TvaRate = () => {
+  //   let totalTVA10 = 0;
+  //   let totalTVA20 = 0;
+    
+  //   // for each carItem
+  //   panierArticle.forEach((item) => {
+  //     // add the price of the item multiplied byt the quantity
+  //     if (item.vat_category === 10) {
+  //       totalTVA10 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
+  //       return totalTVA10
+  //     } else if (item.vat_category === 20) {
+  //       totalTVA20 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
+  //       return totalTVA20
+  //     }
+  //   });
+  //   console.log(totalTVA20)
+  //   console.log(totalTVA10)
+  // }
+  const TvaRate10 = () => {
+    let totalTVA10 = 0;
+    
+    // for each carItem
+    panierArticle.forEach((item) => {
+      // add the price of the item multiplied byt the quantity
+      if (item.vat_category === 10) {
+        totalTVA10 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
+      }
+    });
+    return totalTVA10
+  }
+  const TvaRate20 = () => {
+
+    let totalTVA20 = 0;
+    
+    // for each carItem
+    panierArticle.forEach((item) => {
+      // add the price of the item multiplied byt the quantity
+ if (item.vat_category === 20) {
+        totalTVA20 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
+      }
+    });
+    return totalTVA20
+
+  }
+
     return (
         <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
@@ -94,11 +137,17 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
                 </tr>
                 <tr>
                   <td colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">VAT 10%</td>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">2.79 €</td>
+                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">
+                    {TvaRate10()}
+                    {/* 2.79 € */}
+                    </td>
                 </tr>
                 <tr>
                   <td colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">VAT 20%</td>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">2.18 €</td>
+                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">
+                    {TvaRate20()}
+                    {/* 2.18  */}
+                    €</td>
                 </tr>
                 <tr>
                   <th colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">Total</th>
