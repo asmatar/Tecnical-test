@@ -1,0 +1,42 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+const Order = () => {
+    return (
+        <section class="text-gray-600 body-font overflow-hidden">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex flex-col text-center w-full mb-20">
+            <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Thank you for your order</h1>
+          </div>
+          <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+            <table class="table-auto w-auto mx-auto text-left whitespace-no-wrap">
+              <tbody>
+                <tr>
+                  <td class="px-4 py-3">5x</td>
+                  <td class="px-4 py-3">Mercury</td>
+                </tr>
+                <tr>
+                  <td class="border-t-2 border-gray-200 px-4 py-3">1x</td>
+                  <td class="border-t-2 border-gray-200 px-4 py-3">Earth</td>
+                </tr>
+                <tr>
+                  <td class="border-t-2 border-gray-200 px-4 py-3">3x</td>
+                  <td class="border-t-2 border-gray-200 px-4 py-3">Mars</td>
+                </tr>
+                <tr>
+                  <td class="border-t-2 border-gray-200 px-4 py-3">2x</td>
+                  <td class="border-t-2 border-gray-200 px-4 py-3">Neptune</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="lg:w-2/3 mx-auto mt-10 leading-relaxed text-center">Please send us the payment of <span class="text-3xl">64.71 €</span> to our bitcoin address.</p>
+          <p class="text-center mt-20">
+            <Link to='/products' class="text-white bg-indigo-500 border-0 py-3 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+              >Continue shopping</Link>
+          </p>
+        </div>
+      </section>
+    )
+}
+
+export default Order
