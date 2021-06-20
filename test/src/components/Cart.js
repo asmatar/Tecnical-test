@@ -13,8 +13,34 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
     console.log(value, 'identifiant =', id)
     changeQuantity(value, id)
   }
-  console.log('contenu du panier', panierArticle)
-  // console.log(panierArticle)
+  // console.log('contenu du panier', panierArticle)
+
+  const getTotalPrice = () => {
+    //create total which is the value of the total price
+    let total = 0;
+    
+    // for each carItem
+    panierArticle.forEach((item) => {
+      // add the price of the item multiplied byt the quantity
+      total += (item.unit_price_incl_vat * item.quantity)
+    });
+    console.log(total)
+    return total
+    // save it
+  }
+  const getCount = () => {
+    let count = 0;
+    console.log(panierArticle)
+    //loop through all cart items, and for each one, we'll take the number of quantity and add it
+    panierArticle.forEach(item => {
+        // add the quantity of the cartItem to total
+        count += item.quantity;
+    });
+    console.log(count)
+    return count;
+}
+getCount()
+getTotalPrice()
     return (
         <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
@@ -34,7 +60,6 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
                 </tr>
               </thead>
               <tbody>
-              {/* {console.log(quantity)} */}
               {
                 panierArticle && panierArticle.map(article => {
                   return (
@@ -42,15 +67,10 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
                     <td className="px-4 py-3">{article.name}</td>
                     <td className="px-4 py-3">
                         <input name="quantity" type="number" className="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" 
-                        // value={article.quantity} 
-                        // value={article.quantity}
-                       
                         value={article.quantity}
-                        // value={article.}
                         max='20'
                         min='1'
                         onInput={(event) =>
-                          // console.log(event.target.value)
                         handleChangeQuantity(event.target.value, article.id)
 
                         }/>
@@ -59,58 +79,13 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
                           </svg> 
                           </td>
                     <td className="px-4 py-3 text-right">{article.unit_price_incl_vat} €</td>
-                    <td className="px-4 py-3 text-right">{article.vat_category}%</td>
-                    <td className="px-4 py-3 text-lg text-gray-900 text-right">27.50 €</td>
+                    <td className="px-4 py-3 text-right">{article.vat_category} %</td>
+                    <td className="px-4 py-3 text-lg text-gray-900 text-right">{article.quantity*article.unit_price_incl_vat} €</td>
                   </tr>
                   )
                 })
               }
-{/*   
-                <tr>
-                  <td className="px-4 py-3">Mercury</td>
-                  <td className="px-4 py-3">
-                      <input name="quantity" type="number" className="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="5" />
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /> 
-                        </svg> 
-                        </td>
-                  <td className="px-4 py-3 text-right">5.50 €</td>
-                  <td className="px-4 py-3 text-right">10%</td>
-                  <td className="px-4 py-3 text-lg text-gray-900 text-right">27.50 €</td>
-                </tr> */}
-  
-{/*   
-                <tr>
-                  <td className="border-t-2 border-gray-200 px-4 py-3">Earth</td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3"><input name="quantity" type="number" className="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="1" /><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-  </svg></td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3 text-right">10.00 €</td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3 text-right">0%</td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">10.00 €</td>
-                </tr>
 
-                <tr>
-                  <td className="border-t-2 border-gray-200 px-4 py-3">Mars</td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3"><input name="quantity" type="number" className="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="3"/><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-  </svg></td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3 text-right">1.07 €</td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3 text-right">10%</td>
-                  <td className="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">3.21 €</td>
-                </tr>
-
-                <tr>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">Neptune</td>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3"><input name="quantity" type="number" className="w-12 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-right outline-none text-gray-700 py-1 px-1 leading-8 transition-colors duration-200 ease-in-out" value="2" /><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-  </svg></td>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">12.00 €</td>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">20%</td>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">24.00 €</td>
-                </tr> */}
-  
-                
               </tbody>
               <tfoot>
                 <tr>
@@ -127,7 +102,7 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
                 </tr>
                 <tr>
                   <th colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">Total</th>
-                  <th className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">64.71 €</th>
+                  <th className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">{getTotalPrice()} €</th>
                 </tr>
               </tfoot>
             </table>
