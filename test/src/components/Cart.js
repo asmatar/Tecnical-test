@@ -24,23 +24,21 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
       // add the price of the item multiplied byt the quantity
       total += (item.unit_price_incl_vat * item.quantity)
     });
-    console.log(total)
     return total
     // save it
   }
-  const getCount = () => {
-    let count = 0;
-    console.log(panierArticle)
-    //loop through all cart items, and for each one, we'll take the number of quantity and add it
-    panierArticle.forEach(item => {
-        // add the quantity of the cartItem to total
-        count += item.quantity;
+  const totalWithoutTVA = () => {
+    let totalTVA = 0;
+    
+    // for each carItem
+    panierArticle.forEach((item) => {
+      // add the price of the item multiplied byt the quantity
+      totalTVA += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
     });
-    console.log(count)
-    return count;
-}
-getCount()
-getTotalPrice()
+    console.log(totalTVA)
+    return totalTVA
+  }
+  totalWithoutTVA()
     return (
         <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
@@ -60,6 +58,7 @@ getTotalPrice()
                 </tr>
               </thead>
               <tbody>
+
               {
                 panierArticle && panierArticle.map(article => {
                   return (
@@ -80,7 +79,8 @@ getTotalPrice()
                           </td>
                     <td className="px-4 py-3 text-right">{article.unit_price_incl_vat} €</td>
                     <td className="px-4 py-3 text-right">{article.vat_category} %</td>
-                    <td className="px-4 py-3 text-lg text-gray-900 text-right">{article.quantity*article.unit_price_incl_vat} €</td>
+
+                    <td className="px-4 py-3 text-lg text-gray-900 text-right">{ article.quantity*article.unit_price_incl_vat } €</td>
                   </tr>
                   )
                 })
@@ -90,7 +90,7 @@ getTotalPrice()
               <tfoot>
                 <tr>
                   <td colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">Total excl. VAT</td>
-                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">59.74 €</td>
+                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right"> {totalWithoutTVA()} €</td>
                 </tr>
                 <tr>
                   <td colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">VAT 10%</td>
