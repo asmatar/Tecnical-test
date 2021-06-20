@@ -6,9 +6,9 @@ import { handleAddToCart } from '../redux/actions';
 const Products = ({articles, AddToCart}) => {
 
   const handleAddToCart = (article) => {
-    console.log(article)
     AddToCart(article)
   }
+  
     return (     
         <section className="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
@@ -53,7 +53,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
       AddToCart: (article) => {
-        console.log('mdp', article)
         dispatch(handleAddToCart(article))
       }
     }
