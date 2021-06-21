@@ -1,6 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-const Order = () => {
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+const Order = ({shoppingCard}) => {
+  const getTotalPrice = () => {
+    let total = 0;
+    shoppingCard.forEach((item) => {
+
+      total += (item.unit_price_incl_vat * item.quantity)
+    });
+    return total
+  }
     return (
         <section class="text-gray-600 body-font overflow-hidden">
         <div class="container px-5 py-24 mx-auto">
@@ -10,26 +19,21 @@ const Order = () => {
           <div class="lg:w-2/3 w-full mx-auto overflow-auto">
             <table class="table-auto w-auto mx-auto text-left whitespace-no-wrap">
               <tbody>
-                <tr>
-                  <td class="px-4 py-3">5x</td>
-                  <td class="px-4 py-3">Mercury</td>
+                {
+                  shoppingCard && shoppingCard.map(item => {
+                    console.log(item)
+                    return (
+                      <tr>
+                  <td class="px-4 py-3">{item.quantity}x</td>
+                  <td class="px-4 py-3">{item.name}</td>
                 </tr>
-                <tr>
-                  <td class="border-t-2 border-gray-200 px-4 py-3">1x</td>
-                  <td class="border-t-2 border-gray-200 px-4 py-3">Earth</td>
-                </tr>
-                <tr>
-                  <td class="border-t-2 border-gray-200 px-4 py-3">3x</td>
-                  <td class="border-t-2 border-gray-200 px-4 py-3">Mars</td>
-                </tr>
-                <tr>
-                  <td class="border-t-2 border-gray-200 px-4 py-3">2x</td>
-                  <td class="border-t-2 border-gray-200 px-4 py-3">Neptune</td>
-                </tr>
+                    )
+                  })
+                }
               </tbody>
             </table>
           </div>
-          <p class="lg:w-2/3 mx-auto mt-10 leading-relaxed text-center">Please send us the payment of <span class="text-3xl">64.71 €</span> to our bitcoin address.</p>
+          <p class="lg:w-2/3 mx-auto mt-10 leading-relaxed text-center">Please send us the payment of <span class="text-3xl">{getTotalPrice()} €</span> to our bitcoin address.</p>
           <p class="text-center mt-20">
             <Link to='/products' class="text-white bg-indigo-500 border-0 py-3 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
               >Continue shopping</Link>
@@ -38,5 +42,14 @@ const Order = () => {
       </section>
     )
 }
-
-export default Order
+const mapStateToProps = (state) => {
+  return {
+    shoppingCard : state.panierState.newShop,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    
+  }
+}
+export default connect (mapStateToProps,mapDispatchToProps )(Order) 

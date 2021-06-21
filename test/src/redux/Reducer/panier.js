@@ -2,6 +2,7 @@ import { ADD_TO_CART, CHANGE_QTT, DELETE_CART, HANDLE_SHOPPING } from '../action
 
 export const initialState = {
     panierArticle: [],
+    newShop: []
 }
 
 const panierReducer = (state= initialState, action) => {
@@ -34,6 +35,8 @@ const panierReducer = (state= initialState, action) => {
             return {
                 ...state,
                 panierArticle: [],
+                newShop : [...action.newShop]
+
         }
             default:
                 return state

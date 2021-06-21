@@ -19,7 +19,7 @@ export const changeQuantity = (value, id) => ({
     identifiant: id
 });
 
-export const handleShopping = () => ({
+export const handleShopping = (shopCart) => ({
     type: HANDLE_SHOPPING,
-    
+    newShop: shopCart 
 });
