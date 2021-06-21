@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeQuantity, handleDeleteArticle } from '../redux/actions';
+import { changeQuantity, handleDeleteArticle, handleShopping } from '../redux/actions';
 
-const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
+const Cart = ({panierArticle, handleDeleteArticle, changeQuantity, handleShopping}) => {
   console.log(panierArticle)
   const handleDelete = (articleDelete) => {
     console.log(articleDelete, 'id:', articleDelete.id )
@@ -13,54 +13,25 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
     console.log(value, 'identifiant =', id)
     changeQuantity(value, id)
   }
-  // console.log('contenu du panier', panierArticle)
-
   const getTotalPrice = () => {
-    //create total which is the value of the total price
     let total = 0;
-    
-    // for each carItem
     panierArticle.forEach((item) => {
-      // add the price of the item multiplied byt the quantity
+
       total += (item.unit_price_incl_vat * item.quantity)
     });
     return total
-    // save it
   }
   const totalWithoutTVA = () => {
     let totalTVA = 0;
-    
-    // for each carItem
     panierArticle.forEach((item) => {
-      // add the price of the item multiplied byt the quantity
-      totalTVA += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
+      totalTVA += (item.unit_price_incl_vat * item.quantity * (1 - item.vat_category/100))
     });
+    console.log(totalTVA)
     return totalTVA
   }
-  // const TvaRate = () => {
-  //   let totalTVA10 = 0;
-  //   let totalTVA20 = 0;
-    
-  //   // for each carItem
-  //   panierArticle.forEach((item) => {
-  //     // add the price of the item multiplied byt the quantity
-  //     if (item.vat_category === 10) {
-  //       totalTVA10 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
-  //       return totalTVA10
-  //     } else if (item.vat_category === 20) {
-  //       totalTVA20 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
-  //       return totalTVA20
-  //     }
-  //   });
-  //   console.log(totalTVA20)
-  //   console.log(totalTVA10)
-  // }
   const TvaRate10 = () => {
     let totalTVA10 = 0;
-    
-    // for each carItem
     panierArticle.forEach((item) => {
-      // add the price of the item multiplied byt the quantity
       if (item.vat_category === 10) {
         totalTVA10 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
       }
@@ -68,15 +39,11 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
     return totalTVA10
   }
   const TvaRate20 = () => {
-
     let totalTVA20 = 0;
-    
-    // for each carItem
     panierArticle.forEach((item) => {
-      // add the price of the item multiplied byt the quantity
- if (item.vat_category === 20) {
-        totalTVA20 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
-      }
+    if (item.vat_category === 20) {
+            totalTVA20 += (item.unit_price_incl_vat * item.quantity * (item.vat_category/100))
+          }
     });
     return totalTVA20
 
@@ -139,14 +106,12 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
                   <td colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">VAT 10%</td>
                   <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">
                     {TvaRate10()}
-                    {/* 2.79 € */}
                     </td>
                 </tr>
                 <tr>
                   <td colspan="4" className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-right">VAT 20%</td>
                   <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900 text-right">
                     {TvaRate20()}
-                    {/* 2.18  */}
                     €</td>
                 </tr>
                 <tr>
@@ -166,7 +131,9 @@ const Cart = ({panierArticle, handleDeleteArticle, changeQuantity}) => {
               Back
             </Link>
             <Link to='/order'
-              className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" >Send order</Link>
+              className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" 
+              onClick={handleShopping}
+              >Send order</Link>
           </div>
         </div>
       </section>
@@ -185,7 +152,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     changeQuantity: (value, id) => {
       dispatch(changeQuantity(value, id))
+    },
+    handleShopping: () => {
+      dispatch(handleShopping())
     }
+    
   }
 }
 export default connect (mapStateToProps,mapDispatchToProps )(Cart) 
